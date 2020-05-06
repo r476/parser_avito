@@ -82,17 +82,17 @@ df = df[df['Цена'].astype('str').str.isdecimal()]
 df = df[(df['Цена'] > 30000)]
 df = df.drop_duplicates(subset='ID')
 
-text_for_bot = '''Парсинг мотоциклов в Новосибе {}
-Средняя цена:  {} p
-Медиана: {} p
-Количество объявлений: {} шт
+# text_for_bot = '''Парсинг мотоциклов в Новосибе {}
+# Средняя цена:  {} p
+# Медиана: {} p
+# Количество объявлений: {} шт
 
-{}
-'''.format(datetime.datetime.today().strftime("%d.%m.%Y %H-%M"), 
-           int(df['Цена'].mean()), 
-           df['Цена'].median(), 
-           len(df),
-           sheet_analitics()[0])
+# {}
+# '''.format(datetime.datetime.today().strftime("%d.%m.%Y %H-%M"), 
+#            int(df['Цена'].mean()), 
+#            df['Цена'].median(), 
+#            len(df),
+#            sheet_analitics()[0])
 
 df.to_csv('all_moto.csv', mode='a', header=False)
 
@@ -102,8 +102,8 @@ add_df['Дата'] = ' '.join(os.listdir(file_name)[0][:-5].split()[1:])
 common_df = common_df.append(3333, ignore_index=True)
 common_df.to_csv('/home/pi/Documents/Python/all_moto.csv')'''
 
-print(text_for_bot)
-bot.send_message(-486279980, text_for_bot)
+# print(text_for_bot)
+bot.send_message(-486279980, 'Парсинг прошёл успешно, данные записаны в базу данных')
 
 # sold_send = open(sheet_analitics()[1], 'rb')
 # appearance_send = open(sheet_analitics()[2], 'rb')
