@@ -9,25 +9,8 @@ bot = telebot.TeleBot(token)
 
 path_files = '/home/pi/Documents/Python/'
 url = 'https://www.avito.ru/novosibirsk/mototsikly_i_mototehnika/mototsikly-ASgBAgICAUQ80k0?user=1&radius=0&q=мотоцикл&i=1'
-df = pd.DataFrame(columns=['ID', 'Заголовок', 'Цена', 'Добавлено', 'Расположение', 'Ссылка'])
+df = pd.DataFrame(columns=['ID', 'Дата', 'Заголовок', 'Цена', 'Добавлено', 'Расположение', 'Ссылка'])
 c = 0 
-
-def get_last_couple_sheet():
-    file_list = os.listdir(path_files + 'moto/')
-    date_dict = {}
-    date_list = []
-    for i in file_list:
-        f_data = i.split(' ')
-        minutes = int(f_data[2].split('-')[1].split('.')[0])
-        hours = int(f_data[2].split('-')[0])
-        day = int(f_data[1].split('.')[0])
-        month = int(f_data[1].split('.')[1])
-        year = int(f_data[1].split('.')[2])
-        d = datetime.datetime(year, month, day, hours, minutes)
-        date_dict[d] = i
-        date_list.append(d)
-    date_list.sort()    
-    return date_dict[date_list[-2]], date_dict[date_list[-1]]
 
 def sheet_analitics():
     sheet1 = pd.read_excel(path_files + 'moto/{}'.format(get_last_couple_sheet()[0]))
@@ -72,6 +55,7 @@ def parse_page(url):
     soup = BeautifulSoup(html.text, 'lxml')
     item_list = soup.find_all(class_='item__line')
     global c
+    date = datetime.datetime.today()
     for i in item_list:
         try:
             price = int(''.join(i.find(class_='snippet-price-row').text.strip().split()[:-1]))
@@ -86,7 +70,7 @@ def parse_page(url):
         link = 'https://www.avito.ru' + i.find('a', class_='snippet-link')['href']   
         added = i.find(class_='snippet-date-info').text.strip()
         id_ = int(link.split('_')[-1])
-        df.loc[c] = {'ID':id_, 'Заголовок':title, 'Цена':price, 'Добавлено': added, 'Расположение':location, 'Ссылка':link}
+        df.loc[c] = {'ID':id_, 'Дата':date, 'Заголовок':title, 'Цена':price, 'Добавлено': added, 'Расположение':location, 'Ссылка':link}
         c += 1
           
 for i in range(1, get_amount_pages()+1):
@@ -110,10 +94,7 @@ text_for_bot = '''Парсинг мотоциклов в Новосибе {}
            len(df),
            sheet_analitics()[0])
 
-
-file_name = path_files + 'moto/motoparse {}.xlsx'.format(datetime.datetime.today().strftime("%d.%m.%Y %H-%M"))
-# file_name = '/home/pi/Documents/Python/motoparse/motoparse {}.xlsx'.format(datetime.datetime.today().strftime("%d.%m.%Y %H-%M"))
-df.to_excel(file_name)
+df.to_csv('all_moto.csv', mode='a', header=False)
 
 '''common_df = pd.read_csv('/home/pi/Documents/Python/all_moto.csv', index_col=0)
 add_df = pd.read_excel(file_name)
@@ -124,8 +105,8 @@ common_df.to_csv('/home/pi/Documents/Python/all_moto.csv')'''
 print(text_for_bot)
 bot.send_message(-486279980, text_for_bot)
 
-sold_send = open(sheet_analitics()[1], 'rb')
-appearance_send = open(sheet_analitics()[2], 'rb')
+# sold_send = open(sheet_analitics()[1], 'rb')
+# appearance_send = open(sheet_analitics()[2], 'rb')
 
-bot.send_document(-486279980, sold_send)
-bot.send_document(-486279980, appearance_send)
+# bot.send_document(-486279980, sold_send)
+# bot.send_document(-486279980, appearance_send)
