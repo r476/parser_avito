@@ -9,7 +9,7 @@ bot = telebot.TeleBot(token)
 
 path_files = /home/pi/Documents/Python/parser_avito''
 url = 'https://www.avito.ru/novosibirsk/mototsikly_i_mototehnika/mototsikly-ASgBAgICAUQ80k0?user=1&radius=0&q=мотоцикл&i=1'
-df = pd.DataFrame(columns=['ID', 'Дата', 'Заголовок', 'Цена', 'Добавлено', 'Расположение', 'Ссылка'])
+df = pd.DataFrame(columns=['ID', 'Заголовок', 'Цена', 'Добавлено', 'Расположение', 'Ссылка', 'Дата'])
 c = 0 
 
 '''def sheet_analitics():
