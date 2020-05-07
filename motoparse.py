@@ -7,12 +7,12 @@ from openpyxl import load_workbook
 token = '827576612:AAEX0IHqMW5x-oWrh8T1ZXhE-9_K8pXMTJ0'
 bot = telebot.TeleBot(token)
 
-path_files = '/home/pi/Documents/Python/'
+path_files = /home/pi/Documents/Python/parser_avito''
 url = 'https://www.avito.ru/novosibirsk/mototsikly_i_mototehnika/mototsikly-ASgBAgICAUQ80k0?user=1&radius=0&q=мотоцикл&i=1'
 df = pd.DataFrame(columns=['ID', 'Дата', 'Заголовок', 'Цена', 'Добавлено', 'Расположение', 'Ссылка'])
 c = 0 
 
-def sheet_analitics():
+'''def sheet_analitics():
     sheet1 = pd.read_excel(path_files + 'moto/{}'.format(get_last_couple_sheet()[0]))
     sheet2 = pd.read_excel(path_files + 'moto/{}'.format(get_last_couple_sheet()[1]))
     sheet1 = sheet1.drop_duplicates(subset='ID')
@@ -39,7 +39,7 @@ def sheet_analitics():
     appearance.to_excel(file_name_appearance)
     sold.to_excel(file_name_sold)
     
-    return sold_str + appearance_str, file_name_sold, file_name_appearance
+    return sold_str + appearance_str, file_name_sold, file_name_appearance'''
 
 def get_amount_pages():
     html = requests.get(url,
@@ -94,7 +94,7 @@ df = df.drop_duplicates(subset='ID')
 #            len(df),
 #            sheet_analitics()[0])
 
-df.to_csv('all_moto.csv', mode='a', header=False)
+df.to_csv('/home/pi/Documents/Python/parser_avito/all_moto.csv', mode='a', header=False)
 
 '''common_df = pd.read_csv('/home/pi/Documents/Python/all_moto.csv', index_col=0)
 add_df = pd.read_excel(file_name)
