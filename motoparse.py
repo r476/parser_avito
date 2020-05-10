@@ -7,7 +7,7 @@ from openpyxl import load_workbook
 token = '827576612:AAEX0IHqMW5x-oWrh8T1ZXhE-9_K8pXMTJ0'
 bot = telebot.TeleBot(token)
 
-path_files = /home/pi/Documents/Python/parser_avito''
+path_files ='/home/pi/Documents/Python/parser_avito/'
 url = 'https://www.avito.ru/novosibirsk/mototsikly_i_mototehnika/mototsikly-ASgBAgICAUQ80k0?user=1&radius=0&q=мотоцикл&i=1'
 df = pd.DataFrame(columns=['ID', 'Заголовок', 'Цена', 'Добавлено', 'Расположение', 'Ссылка', 'Дата'])
 c = 0 
@@ -70,7 +70,7 @@ def parse_page(url):
         link = 'https://www.avito.ru' + i.find('a', class_='snippet-link')['href']   
         added = i.find(class_='snippet-date-info').text.strip()
         id_ = int(link.split('_')[-1])
-        df.loc[c] = {'ID':id_, 'Дата':date, 'Заголовок':title, 'Цена':price, 'Добавлено': added, 'Расположение':location, 'Ссылка':link}
+        df.loc[c] = {'ID':id_, 'Заголовок':title, 'Цена':price, 'Добавлено': added, 'Расположение':location, 'Ссылка':link, 'Дата':date, }
         c += 1
           
 for i in range(1, get_amount_pages()+1):
